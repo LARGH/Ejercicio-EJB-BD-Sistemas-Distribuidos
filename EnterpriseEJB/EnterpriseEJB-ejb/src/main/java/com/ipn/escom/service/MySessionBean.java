@@ -18,4 +18,9 @@ public class MySessionBean implements MySessionBeanRemote {
         return "Ok, you got it!";
     }
 
+    @Override
+    public String getCancelString() {
+        return "Cancel";
+    }
+    
 }
