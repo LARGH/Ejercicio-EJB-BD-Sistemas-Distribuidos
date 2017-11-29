@@ -3,16 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ipn.escom.conversiones;
+package com.mx.ipn.escom.dao;
+
+import com.mx.ipn.escom.model.Alumno;
+import javax.ejb.Local;
 
 /**
  *
  * @author jonathan
  */
-public class Test {
-    
-    public static void main(String[] args){
-        System.out.println("Hello world");
-    }
+@Local
+public interface AlumnoDAOLocal {
+
+    void create(Alumno alumno);
+    void update(Alumno alumno);
     
 }
