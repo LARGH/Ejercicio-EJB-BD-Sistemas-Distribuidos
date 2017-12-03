@@ -1,16 +1,24 @@
-package carrerasejbcliente.screens;
+package carrerasejbcliente.screens.forms;
+
+import carrerasejbcliente.model.beans.Carrera;
 
 /**
  *
  * @author Rafael Landa
  */
-public class CRUD extends javax.swing.JFrame {
+public final class CRUD extends javax.swing.JFrame {
 
-    /**
-     * Creates new form CRUD
-     */
+    public static javax.swing.table.DefaultTableModel modeloTabla;
+    
+    private int indexRowTable;
+    
+    private VFormAgregarCarreras formAgregarCarreras;
+    private VCRUDAlumnos formCrudAlumnos;
+    
     public CRUD() {
+        initTable(new String[]{"No.", "Nombre Carrera", "Descripcion"});
         initComponents();
+        initEvents();
         this.setLocation(430, 150);
     }
 
@@ -33,6 +41,8 @@ public class CRUD extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         txtDescripcion = new javax.swing.JTextArea();
         txtNombreCarrera = new javax.swing.JTextField();
+        btnVerAlumnos = new javax.swing.JButton();
+        btnActualizarCarreraForm = new javax.swing.JButton();
         panelVista = new javax.swing.JPanel();
         scllVistaTablaCarreras = new javax.swing.JScrollPane();
         tbCarreras = new javax.swing.JTable();
@@ -59,19 +69,40 @@ public class CRUD extends javax.swing.JFrame {
         txtDescripcion.setRows(5);
         jScrollPane2.setViewportView(txtDescripcion);
 
+        btnVerAlumnos.setText("Ver alumnos");
+        btnVerAlumnos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnVerAlumnosMouseClicked(evt);
+            }
+        });
+
+        btnActualizarCarreraForm.setText("Actualizar carrera");
+        btnActualizarCarreraForm.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnActualizarCarreraFormMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelEditorCarreraLayout = new javax.swing.GroupLayout(panelEditorCarrera);
         panelEditorCarrera.setLayout(panelEditorCarreraLayout);
         panelEditorCarreraLayout.setHorizontalGroup(
             panelEditorCarreraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelEditorCarreraLayout.createSequentialGroup()
-                .addGap(13, 13, 13)
-                .addGroup(panelEditorCarreraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lbNombreCarrera)
-                    .addComponent(lbDescripcionCarrera))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelEditorCarreraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
-                    .addComponent(txtNombreCarrera))
+                    .addGroup(panelEditorCarreraLayout.createSequentialGroup()
+                        .addGap(13, 13, 13)
+                        .addGroup(panelEditorCarreraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lbNombreCarrera)
+                            .addComponent(lbDescripcionCarrera))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(panelEditorCarreraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
+                            .addComponent(txtNombreCarrera)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditorCarreraLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnActualizarCarreraForm)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnVerAlumnos)))
                 .addContainerGap())
         );
         panelEditorCarreraLayout.setVerticalGroup(
@@ -83,11 +114,13 @@ public class CRUD extends javax.swing.JFrame {
                     .addComponent(txtNombreCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(panelEditorCarreraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelEditorCarreraLayout.createSequentialGroup()
-                        .addComponent(lbDescripcionCarrera)
-                        .addGap(0, 59, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(lbDescripcionCarrera)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelEditorCarreraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnVerAlumnos)
+                    .addComponent(btnActualizarCarreraForm))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         tabEditarCarrera.addTab("Editar Carrera", panelEditorCarrera);
@@ -111,23 +144,32 @@ public class CRUD extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(lbTituloVentana)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tabEditarCarrera)
-                .addContainerGap())
+                .addComponent(tabEditarCarrera))
         );
 
-        tbCarreras.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {},
-            new String [] {
-                "No.", "Nombre Carrera"
+        tbCarreras.setModel(modeloTabla);
+        tbCarreras.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbCarrerasMouseClicked(evt);
             }
-        ));
+        });
         scllVistaTablaCarreras.setViewportView(tbCarreras);
 
         btnBuscar.setText("Buscar");
 
         btnAgregarCarrera.setText("Agregar");
+        btnAgregarCarrera.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAgregarCarreraMouseClicked(evt);
+            }
+        });
 
         btnBorrarCarrera.setText("Borrar");
+        btnBorrarCarrera.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBorrarCarreraMouseClicked(evt);
+            }
+        });
 
         btnActualizarCarrera.setText("Actualizar");
 
@@ -153,21 +195,18 @@ public class CRUD extends javax.swing.JFrame {
         );
         panelVistaLayout.setVerticalGroup(
             panelVistaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelVistaLayout.createSequentialGroup()
+            .addGroup(panelVistaLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(panelVistaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelVistaLayout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addGroup(panelVistaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtBuscarFormat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(panelVistaLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(panelVistaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnAgregarCarrera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnBorrarCarrera)
-                            .addComponent(btnActualizarCarrera))))
+                    .addGroup(panelVistaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtBuscarFormat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelVistaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnAgregarCarrera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnBorrarCarrera)
+                        .addComponent(btnActualizarCarrera)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(scllVistaTablaCarreras, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(scllVistaTablaCarreras, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -200,6 +239,104 @@ public class CRUD extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void tbCarrerasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbCarrerasMouseClicked
+        int row = tbCarreras.rowAtPoint(evt.getPoint());
+        System.out.println("ROW: " + row + " COL: " + 
+            modeloTabla.getValueAt(row, 1).toString());
+        if (row >= 0) {
+            this.setIndexRowTable(row);
+            Carrera carrera = new Carrera();
+            carrera.setNombreCarrera(modeloTabla.getValueAt(row, 1).toString());
+            carrera.setDescripcion(modeloTabla.getValueAt(row, 2).toString());
+            this.txtNombreCarrera.setText(carrera.getNombreCarrera());
+            this.txtDescripcion.setText(carrera.getDescripcion());
+            updateObjectsWhenRowSelected();
+        }
+    }//GEN-LAST:event_tbCarrerasMouseClicked
+
+    private void btnBorrarCarreraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBorrarCarreraMouseClicked
+        if (this.btnBorrarCarrera.isEnabled()) {
+            if (modeloTabla.getRowCount() > 0) {
+                int row = tbCarreras.rowAtPoint(evt.getPoint());
+                if (row >= 0) {
+                    int eleccion = 
+                        javax.swing.JOptionPane.showOptionDialog(this,
+                            "¿Está seguro de eliminar la carrera '" +
+                                modeloTabla.getValueAt(row, 1) + "'?",
+                                "Mensaje de Confirmacion",
+                            javax.swing.JOptionPane.YES_NO_OPTION, 
+                            javax.swing.JOptionPane.QUESTION_MESSAGE,
+                            null, new Object[] {"Aceptar", "Cancelar"}, 
+                            "Aceptar"
+                        );
+                    if (eleccion == javax.swing.JOptionPane.YES_OPTION)
+                        modeloTabla.removeRow(this.getIndexRowTable());
+                }
+            }
+        }
+    }//GEN-LAST:event_btnBorrarCarreraMouseClicked
+
+    private void btnAgregarCarreraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarCarreraMouseClicked
+        this.formAgregarCarreras = new VFormAgregarCarreras();
+        this.formAgregarCarreras.setVisible(true);
+    }//GEN-LAST:event_btnAgregarCarreraMouseClicked
+
+    private void btnVerAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVerAlumnosMouseClicked
+        int row = tbCarreras.rowAtPoint(evt.getPoint());
+        this.formCrudAlumnos = new VCRUDAlumnos();
+        this.formCrudAlumnos.setlbNombreCarrera(
+            modeloTabla.getValueAt(row, 1).toString());
+        this.formCrudAlumnos.setVisible(true);
+    }//GEN-LAST:event_btnVerAlumnosMouseClicked
+
+    private void btnActualizarCarreraFormMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnActualizarCarreraFormMouseClicked
+        
+    }//GEN-LAST:event_btnActualizarCarreraFormMouseClicked
+
+    private void initEvents() {
+        this.btnBorrarCarrera.setEnabled(false);
+        this.btnActualizarCarrera.setEnabled(true);
+        this.btnVerAlumnos.setEnabled(false);
+        this.btnActualizarCarreraForm.setEnabled(false);
+    }
+    
+    private void updateObjectsWhenRowSelected() {
+        this.btnVerAlumnos.setEnabled(true);
+        this.btnActualizarCarreraForm.setEnabled(true);
+        this.btnBorrarCarrera.setEnabled(true);
+    }
+    
+    private void initTable(String[] columns) {
+        CRUD.modeloTabla = new javax.swing.table.DefaultTableModel();
+        for (String column : columns)
+            modeloTabla.addColumn(column);
+        addRowsTable();
+    }
+    
+    private void addRowsTable() {
+        modeloTabla.addRow(new Object[] {
+            "1", "Ing. en Sistemas", "Descripcion"
+        });
+        modeloTabla.addRow(new Object[] {
+            "2", "Ing. en Sistemas", "Descripcion"
+        });
+        modeloTabla.addRow(new Object[] {
+            "3", "Ing. en Sistemas", "Descripcion"
+        });
+        modeloTabla.addRow(new Object[] {
+            "4", "Ing. en Sistemas", "Descripcion"
+        });
+        modeloTabla.addRow(new Object[] {
+            "5", "Ing. en Sistemas", "Descripcion"
+        });
+        modeloTabla.addRow(new Object[] {
+            "6", "Ing. en Sistemas", "Descripcion"
+        });
+        modeloTabla.addRow(new Object[] {
+            "7", "Ing. en Sistemas", "Descripcion"
+        });
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -237,9 +374,11 @@ public class CRUD extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizarCarrera;
+    private javax.swing.JButton btnActualizarCarreraForm;
     private javax.swing.JButton btnAgregarCarrera;
     private javax.swing.JButton btnBorrarCarrera;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnVerAlumnos;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lbDescripcionCarrera;
     private javax.swing.JLabel lbNombreCarrera;
@@ -255,4 +394,13 @@ public class CRUD extends javax.swing.JFrame {
     private javax.swing.JTextArea txtDescripcion;
     private javax.swing.JTextField txtNombreCarrera;
     // End of variables declaration//GEN-END:variables
+
+    public int getIndexRowTable() {
+        return indexRowTable;
+    }
+
+    public void setIndexRowTable(int indexRowTable) {
+        this.indexRowTable = indexRowTable;
+    }
+
 }

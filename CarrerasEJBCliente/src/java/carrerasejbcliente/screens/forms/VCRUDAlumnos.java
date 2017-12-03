@@ -1,4 +1,4 @@
-package carrerasejbcliente.screens;
+package carrerasejbcliente.screens.forms;
 
 /**
  *
@@ -11,6 +11,7 @@ public class VCRUDAlumnos extends javax.swing.JFrame {
      */
     public VCRUDAlumnos() {
         initComponents();
+        initEvents();
         this.setLocation(430, 150);
     }
 
@@ -33,18 +34,19 @@ public class VCRUDAlumnos extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtMatricula = new javax.swing.JTextField();
         txtNombreAlumno = new javax.swing.JTextField();
+        btnActualizarAlumno = new javax.swing.JButton();
         panelVista = new javax.swing.JPanel();
         scrllTablaVista = new javax.swing.JScrollPane();
         tbAlumnos = new javax.swing.JTable();
         txtBuscarFormat = new javax.swing.JFormattedTextField();
         btnBuscar = new javax.swing.JButton();
-        btnActualizarCarrera = new javax.swing.JButton();
-        btnBorrarCarrera = new javax.swing.JButton();
+        btnActualizarListaAlumnos = new javax.swing.JButton();
+        btnBorrarAlumno = new javax.swing.JButton();
         btnAgregarCarrera = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Modificación de alumnos");
-        setPreferredSize(new java.awt.Dimension(602, 467));
         setResizable(false);
 
         lbCarrera.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -59,19 +61,28 @@ public class VCRUDAlumnos extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel3.setText("Nombre de alumno:");
 
+        txtMatricula.setEnabled(false);
+
+        btnActualizarAlumno.setText("Actualizar alumno");
+
         javax.swing.GroupLayout panelEditorAlumnosLayout = new javax.swing.GroupLayout(panelEditorAlumnos);
         panelEditorAlumnos.setLayout(panelEditorAlumnosLayout);
         panelEditorAlumnosLayout.setHorizontalGroup(
             panelEditorAlumnosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelEditorAlumnosLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(panelEditorAlumnosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelEditorAlumnosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtMatricula)
-                    .addComponent(txtNombreAlumno, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE))
+                    .addGroup(panelEditorAlumnosLayout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addGroup(panelEditorAlumnosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelEditorAlumnosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtMatricula)
+                            .addComponent(txtNombreAlumno, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditorAlumnosLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnActualizarAlumno)))
                 .addContainerGap())
         );
         panelEditorAlumnosLayout.setVerticalGroup(
@@ -85,6 +96,8 @@ public class VCRUDAlumnos extends javax.swing.JFrame {
                 .addGroup(panelEditorAlumnosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtNombreAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnActualizarAlumno)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -100,11 +113,18 @@ public class VCRUDAlumnos extends javax.swing.JFrame {
 
         btnBuscar.setText("Buscar");
 
-        btnActualizarCarrera.setText("Actualizar");
+        btnActualizarListaAlumnos.setText("Actualizar");
 
-        btnBorrarCarrera.setText("Borrar");
+        btnBorrarAlumno.setText("Borrar");
 
         btnAgregarCarrera.setText("Agregar");
+
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCancelarMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelVistaLayout = new javax.swing.GroupLayout(panelVista);
         panelVista.setLayout(panelVistaLayout);
@@ -119,12 +139,16 @@ public class VCRUDAlumnos extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBuscar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnActualizarCarrera)
+                        .addComponent(btnActualizarListaAlumnos)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnBorrarCarrera)
+                        .addComponent(btnBorrarAlumno)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnAgregarCarrera)))
                 .addContainerGap())
+            .addGroup(panelVistaLayout.createSequentialGroup()
+                .addGap(186, 186, 186)
+                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelVistaLayout.setVerticalGroup(
             panelVistaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -136,10 +160,13 @@ public class VCRUDAlumnos extends javax.swing.JFrame {
                         .addComponent(txtBuscarFormat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelVistaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnAgregarCarrera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnBorrarCarrera)
-                        .addComponent(btnActualizarCarrera)))
+                        .addComponent(btnBorrarAlumno)
+                        .addComponent(btnActualizarListaAlumnos)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scrllTablaVista, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(scrllTablaVista, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(btnCancelar)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout panelEditorLayout = new javax.swing.GroupLayout(panelEditor);
@@ -166,10 +193,9 @@ public class VCRUDAlumnos extends javax.swing.JFrame {
                     .addComponent(lbCarrera)
                     .addComponent(lbNombreCarrera, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tabEditor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tabEditor, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelVista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(3, 3, 3))
+                .addComponent(panelVista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout panelPrincipalLayout = new javax.swing.GroupLayout(panelPrincipal);
@@ -180,9 +206,7 @@ public class VCRUDAlumnos extends javax.swing.JFrame {
         );
         panelPrincipalLayout.setVerticalGroup(
             panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelPrincipalLayout.createSequentialGroup()
-                .addComponent(panelEditor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(panelEditor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -199,46 +223,22 @@ public class VCRUDAlumnos extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VCRUDAlumnos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VCRUDAlumnos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VCRUDAlumnos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VCRUDAlumnos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarMouseClicked
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new VCRUDAlumnos().setVisible(true);
-            }
-        });
+    private void initEvents() {
+        this.btnBorrarAlumno.setEnabled(false);
+        this.btnActualizarListaAlumnos.setEnabled(false);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnActualizarCarrera;
+    private javax.swing.JButton btnActualizarAlumno;
+    private javax.swing.JButton btnActualizarListaAlumnos;
     private javax.swing.JButton btnAgregarCarrera;
-    private javax.swing.JButton btnBorrarCarrera;
+    private javax.swing.JButton btnBorrarAlumno;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel lbCarrera;
@@ -254,4 +254,9 @@ public class VCRUDAlumnos extends javax.swing.JFrame {
     private javax.swing.JTextField txtMatricula;
     private javax.swing.JTextField txtNombreAlumno;
     // End of variables declaration//GEN-END:variables
+
+    public void setlbNombreCarrera(String value) {
+        this.lbNombreCarrera.setText(value);
+    }
+
 }
