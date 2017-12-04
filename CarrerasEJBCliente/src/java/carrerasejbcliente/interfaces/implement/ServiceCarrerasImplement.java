@@ -1,17 +1,17 @@
 package carrerasejbcliente.interfaces.implement;
 
-import carrerasejbcliente.interfaces.Service;
 import carrerasejbcliente.model.beans.Carrera;
 
 import java.util.ArrayList;
 import java.util.List;
+import carrerasejbcliente.interfaces.ServiceCarreras;
 
 /**
  *
  * @author Rafael Landa
  */
-public class ServiceImplement implements Service {
-    
+public class ServiceCarrerasImplement implements ServiceCarreras {
+
     public static List<Carrera> carreras = new ArrayList<>();
     
     static {
@@ -31,7 +31,7 @@ public class ServiceImplement implements Service {
 
     @Override
     public void create(Carrera carrera) {
-        ServiceImplement.carreras.add(carrera);
+        ServiceCarrerasImplement.carreras.add(carrera);
     }
 
     @Override

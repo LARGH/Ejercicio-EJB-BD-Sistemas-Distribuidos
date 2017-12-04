@@ -8,7 +8,7 @@ import java.util.List;
  *
  * @author Rafael Landa
  */
-public interface Service {
+public interface ServiceCarreras {
     
     public void create(Carrera carrera);
     
