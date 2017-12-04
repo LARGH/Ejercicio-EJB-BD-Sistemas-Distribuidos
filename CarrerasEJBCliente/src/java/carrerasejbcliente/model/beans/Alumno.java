@@ -9,6 +9,8 @@ import java.util.Objects;
 public class Alumno {
     private String matricula;
     private String nombreAlumno;
+    private String apellidoPaterno;
+    private String apellidoMaterno;
     private Carrera carrera;
 
     public Alumno() {
@@ -30,6 +32,34 @@ public class Alumno {
 
     public String getNombreAlumno() {
         return nombreAlumno;
+    }
+
+    /**
+     * @return the apellidoPaterno
+     */
+    public String getApellidoPaterno() {
+        return apellidoPaterno;
+    }
+
+    /**
+     * @param apellidoPaterno the apellidoPaterno to set
+     */
+    public void setApellidoPaterno(String apellidoPaterno) {
+        this.apellidoPaterno = apellidoPaterno;
+    }
+
+    /**
+     * @return the apellidoMaterno
+     */
+    public String getApellidoMaterno() {
+        return apellidoMaterno;
+    }
+
+    /**
+     * @param apellidoMaterno the apellidoMaterno to set
+     */
+    public void setApellidoMaterno(String apellidoMaterno) {
+        this.apellidoMaterno = apellidoMaterno;
     }
 
     public void setNombreAlumno(String nombreAlumno) {

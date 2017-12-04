@@ -1,5 +1,6 @@
 package carrerasejbcliente.screens.validations.implement;
 
+import carrerasejbcliente.screens.forms.VFormAgregarAlumnos;
 import carrerasejbcliente.screens.validations.ActionErrors;
 import carrerasejbcliente.screens.validations.ActionValidDelegate;
 
@@ -10,7 +11,7 @@ import carrerasejbcliente.screens.validations.ActionValidDelegate;
 public class ActionEditarAlumnoForm implements ActionValidDelegate {
 
     @Override
-    public ActionErrors validateForm() {
+    public ActionErrors validateForm(Object form) {
         return null;
     }
     

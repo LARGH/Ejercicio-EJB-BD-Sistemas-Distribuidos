@@ -1,15 +1,26 @@
 package carrerasejbcliente.screens.forms;
 
+import carrerasejbcliente.model.beans.Alumno;
+
 /**
  *
  * @author Rafael Landa
  */
 public class VCRUDAlumnos extends javax.swing.JFrame {
 
-    /**
-     * Creates new form VCRUDAlumnos
-     */
+    public static javax.swing.table.DefaultTableModel modeloTabla;
+    
+    private VFormAgregarAlumnos formAgregarAlumnos;
+    
+    private int indexRowTable;
+    
     public VCRUDAlumnos() {
+        initTable(new String[]{
+            "Matricula", 
+            "Nombre Alumno", 
+            "Apellido Paterno", 
+            "Apellido Materno"
+        });
         initComponents();
         initEvents();
         this.setLocation(430, 150);
@@ -34,7 +45,10 @@ public class VCRUDAlumnos extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtMatricula = new javax.swing.JTextField();
         txtNombreAlumno = new javax.swing.JTextField();
-        btnActualizarAlumno = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        txtApellidoPaterno = new javax.swing.JTextField();
+        txtApellidoMaterno = new javax.swing.JTextField();
         panelVista = new javax.swing.JPanel();
         scrllTablaVista = new javax.swing.JScrollPane();
         tbAlumnos = new javax.swing.JTable();
@@ -63,26 +77,35 @@ public class VCRUDAlumnos extends javax.swing.JFrame {
 
         txtMatricula.setEnabled(false);
 
-        btnActualizarAlumno.setText("Actualizar alumno");
+        txtNombreAlumno.setEnabled(false);
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel1.setText("Apellido paterno:");
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel4.setText("Apellido materno:");
+
+        txtApellidoPaterno.setEnabled(false);
+
+        txtApellidoMaterno.setEnabled(false);
 
         javax.swing.GroupLayout panelEditorAlumnosLayout = new javax.swing.GroupLayout(panelEditorAlumnos);
         panelEditorAlumnos.setLayout(panelEditorAlumnosLayout);
         panelEditorAlumnosLayout.setHorizontalGroup(
             panelEditorAlumnosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelEditorAlumnosLayout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addGroup(panelEditorAlumnosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelEditorAlumnosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelEditorAlumnosLayout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addGroup(panelEditorAlumnosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelEditorAlumnosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtMatricula)
-                            .addComponent(txtNombreAlumno, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditorAlumnosLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnActualizarAlumno)))
+                    .addComponent(txtMatricula)
+                    .addComponent(txtNombreAlumno, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
+                    .addComponent(txtApellidoPaterno)
+                    .addComponent(txtApellidoMaterno))
                 .addContainerGap())
         );
         panelEditorAlumnosLayout.setVerticalGroup(
@@ -92,32 +115,53 @@ public class VCRUDAlumnos extends javax.swing.JFrame {
                 .addGroup(panelEditorAlumnosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelEditorAlumnosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtNombreAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnActualizarAlumno)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(panelEditorAlumnosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(txtApellidoPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelEditorAlumnosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(txtApellidoMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
-        tabEditor.addTab("Editor Alumnos", panelEditorAlumnos);
+        tabEditor.addTab("Datos Alumno:", panelEditorAlumnos);
 
-        tbAlumnos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {},
-            new String [] {
-                "No.", "Matricula", "Nombre alumno"
+        tbAlumnos.setModel(modeloTabla);
+        tbAlumnos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbAlumnosMouseClicked(evt);
             }
-        ));
+        });
         scrllTablaVista.setViewportView(tbAlumnos);
 
         btnBuscar.setText("Buscar");
+        btnBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBuscarMouseClicked(evt);
+            }
+        });
 
         btnActualizarListaAlumnos.setText("Actualizar");
 
         btnBorrarAlumno.setText("Borrar");
+        btnBorrarAlumno.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBorrarAlumnoMouseClicked(evt);
+            }
+        });
 
         btnAgregarCarrera.setText("Agregar");
+        btnAgregarCarrera.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAgregarCarreraMouseClicked(evt);
+            }
+        });
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -193,7 +237,7 @@ public class VCRUDAlumnos extends javax.swing.JFrame {
                     .addComponent(lbCarrera)
                     .addComponent(lbNombreCarrera, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tabEditor, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tabEditor, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelVista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -227,20 +271,103 @@ public class VCRUDAlumnos extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnCancelarMouseClicked
 
+    private void btnAgregarCarreraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarCarreraMouseClicked
+        this.formAgregarAlumnos = new VFormAgregarAlumnos();
+        this.formAgregarAlumnos.setVisible(true);
+    }//GEN-LAST:event_btnAgregarCarreraMouseClicked
+
+    private void btnBorrarAlumnoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBorrarAlumnoMouseClicked
+        if (this.btnBorrarAlumno.isEnabled()) {
+            if (modeloTabla.getRowCount() > 0) {
+                int row = tbAlumnos.rowAtPoint(evt.getPoint());
+                if (row >= 0) {
+                    int eleccion = 
+                        javax.swing.JOptionPane.showOptionDialog(this,
+                            "¿Está seguro de eliminar el alumno '" +
+                                modeloTabla.getValueAt(row, 1) + "'?",
+                                "Mensaje de Confirmacion",
+                            javax.swing.JOptionPane.YES_NO_OPTION, 
+                            javax.swing.JOptionPane.QUESTION_MESSAGE,
+                            null, new Object[] {"Aceptar", "Cancelar"}, 
+                            "Aceptar"
+                        );
+                    if (eleccion == javax.swing.JOptionPane.YES_OPTION)
+                        modeloTabla.removeRow(this.getIndexRowTable());
+                }
+            }
+        }
+    }//GEN-LAST:event_btnBorrarAlumnoMouseClicked
+
+    private void tbAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbAlumnosMouseClicked
+        int row = tbAlumnos.rowAtPoint(evt.getPoint());
+        if (row >= 0) {
+            this.setIndexRowTable(row);
+            Alumno alumno = new Alumno();
+            alumno.setMatricula(modeloTabla.getValueAt(row, 0).toString());
+            alumno.setNombreAlumno(modeloTabla.getValueAt(row, 1).toString());
+            alumno.setApellidoPaterno(modeloTabla.getValueAt(row, 2).toString());
+            alumno.setApellidoMaterno(modeloTabla.getValueAt(row, 3).toString());
+            this.txtMatricula.setText(alumno.getMatricula());
+            this.txtNombreAlumno.setText(alumno.getNombreAlumno());
+            this.txtApellidoPaterno.setText(alumno.getApellidoPaterno());
+            this.txtApellidoMaterno.setText(alumno.getApellidoMaterno());
+        }
+    }//GEN-LAST:event_tbAlumnosMouseClicked
+
+    private void btnBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseClicked
+        
+    }//GEN-LAST:event_btnBuscarMouseClicked
+
     private void initEvents() {
         this.btnBorrarAlumno.setEnabled(false);
         this.btnActualizarListaAlumnos.setEnabled(false);
     }
+    
+    private void initTable(String[] columns) {
+        VCRUDAlumnos.modeloTabla = new javax.swing.table.DefaultTableModel();
+        for (String column : columns)
+            modeloTabla.addColumn(column);
+        addRowsTable();
+    }
+    
+    private void updateObjectsWhenRowSelected() {
+        
+    }
+    
+    private void addRowsTable() {
+        modeloTabla.addRow(new Object[] {
+            "2015674365", "Nombre", "Apellido Paterno", "Apellido Materno"
+        });
+        modeloTabla.addRow(new Object[] {
+            "2015674365", "Nombre", "Apellido Paterno", "Apellido Materno"
+        });
+        modeloTabla.addRow(new Object[] {
+            "2015674365", "Nombre", "Apellido Paterno", "Apellido Materno"
+        });
+        modeloTabla.addRow(new Object[] {
+            "2015674365", "Nombre", "Apellido Paterno", "Apellido Materno"
+        });
+        modeloTabla.addRow(new Object[] {
+            "2015674365", "Nombre", "Apellido Paterno", "Apellido Materno"
+        });
+        modeloTabla.addRow(new Object[] {
+            "2015674365", "Nombre", "Apellido Paterno", "Apellido Materno"
+        });
+        modeloTabla.addRow(new Object[] {
+            "2015674365", "Nombre", "Apellido Paterno", "Apellido Materno"
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnActualizarAlumno;
     private javax.swing.JButton btnActualizarListaAlumnos;
     private javax.swing.JButton btnAgregarCarrera;
     private javax.swing.JButton btnBorrarAlumno;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel lbCarrera;
     private javax.swing.JLabel lbNombreCarrera;
     private javax.swing.JPanel panelEditor;
@@ -250,6 +377,8 @@ public class VCRUDAlumnos extends javax.swing.JFrame {
     private javax.swing.JScrollPane scrllTablaVista;
     private javax.swing.JTabbedPane tabEditor;
     private javax.swing.JTable tbAlumnos;
+    private javax.swing.JTextField txtApellidoMaterno;
+    private javax.swing.JTextField txtApellidoPaterno;
     private javax.swing.JFormattedTextField txtBuscarFormat;
     private javax.swing.JTextField txtMatricula;
     private javax.swing.JTextField txtNombreAlumno;
@@ -257,6 +386,14 @@ public class VCRUDAlumnos extends javax.swing.JFrame {
 
     public void setlbNombreCarrera(String value) {
         this.lbNombreCarrera.setText(value);
+    }
+
+    public int getIndexRowTable() {
+        return indexRowTable;
+    }
+
+    public void setIndexRowTable(int indexRowTable) {
+        this.indexRowTable = indexRowTable;
     }
 
 }

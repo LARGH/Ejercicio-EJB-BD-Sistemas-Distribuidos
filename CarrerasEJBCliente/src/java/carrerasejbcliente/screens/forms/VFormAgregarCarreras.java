@@ -1,5 +1,9 @@
 package carrerasejbcliente.screens.forms;
 
+import carrerasejbcliente.screens.validations.ActionErrors;
+import carrerasejbcliente.screens.validations.ActionValidDelegate;
+import carrerasejbcliente.screens.validations.implement.ActionAgregarCarreraForm;
+
 /**
  *
  * @author Rafael Landa
@@ -35,18 +39,35 @@ public class VFormAgregarCarreras extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Agregar carreras");
+        setResizable(false);
 
         lbNombreCarrera.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lbNombreCarrera.setText("Nombre de carrera:");
+
+        txtNombreCarrera.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNombreCarreraKeyPressed(evt);
+            }
+        });
 
         lbDescripcionCarrera.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lbDescripcionCarrera.setText("Descripción:");
 
         txtDescripcion.setColumns(20);
         txtDescripcion.setRows(5);
+        txtDescripcion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtDescripcionKeyPressed(evt);
+            }
+        });
         scrllPaneTxtArea.setViewportView(txtDescripcion);
 
         btnAgregarCarrera.setText("Agregar carrera");
+        btnAgregarCarrera.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAgregarCarreraMouseClicked(evt);
+            }
+        });
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -139,6 +160,39 @@ public class VFormAgregarCarreras extends javax.swing.JFrame {
     private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked
         this.dispose();
     }//GEN-LAST:event_btnCancelarMouseClicked
+
+    private void btnAgregarCarreraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarCarreraMouseClicked
+        if (this.btnAgregarCarrera.isEnabled()) {
+            ActionValidDelegate form = new ActionAgregarCarreraForm();
+            String mensajesError = ActionErrors.getErrors(form.validateForm(this));
+            if (!mensajesError.isEmpty()) {
+                javax.swing.JOptionPane.showOptionDialog(this,
+                    mensajesError,
+                    "Errores de formulario.",
+                    javax.swing.JOptionPane.YES_OPTION, 
+                    javax.swing.JOptionPane.ERROR_MESSAGE,
+                    null, new Object[] {"Aceptar"}, 
+                    "Aceptar"
+                );
+            } else {
+                System.out.println("Agregar carreras.");
+            }
+        }
+    }//GEN-LAST:event_btnAgregarCarreraMouseClicked
+
+    private void txtNombreCarreraKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreCarreraKeyPressed
+        if (!this.txtNombreCarrera.getText().isEmpty() || 
+             this.txtNombreCarrera.getText().length() > 0) {
+            this.btnAgregarCarrera.setEnabled(true); 
+        }
+    }//GEN-LAST:event_txtNombreCarreraKeyPressed
+
+    private void txtDescripcionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcionKeyPressed
+        if (!this.txtDescripcion.getText().isEmpty() || 
+             this.txtDescripcion.getText().length() > 0) {
+            this.btnAgregarCarrera.setEnabled(true); 
+        }
+    }//GEN-LAST:event_txtDescripcionKeyPressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarCarrera;

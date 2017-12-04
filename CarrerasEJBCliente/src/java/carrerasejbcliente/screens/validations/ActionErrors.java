@@ -1,41 +1,54 @@
 package carrerasejbcliente.screens.validations;
 
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  *
  * @author Rafael Landa
  */
 public class ActionErrors {
-    private Map<String, String> errors;
+    
+    private Map<KeyErrors, String> errors;
 
     public ActionErrors() {
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode(); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final ActionErrors other = (ActionErrors) obj;
-        if (!Objects.equals(this.errors, other.errors)) {
-            return false;
-        }
-        return true;
+        this.errors = new HashMap<>();
     }
     
+    public void addError(KeyErrors key, String error) {
+        this.errors.put(key, error);
+    }
+
+    public Map<KeyErrors, String> getErrors() {
+        return errors;
+    }
+
+    public void setErrors(Map<KeyErrors, String> errors) {
+        this.errors = errors;
+    }
     
+    public static String getErrors(ActionErrors errors) {
+        StringBuilder mensaje = new StringBuilder("");
+        errors.getErrors().entrySet().stream().forEach((entry) -> {
+            KeyErrors key = entry.getKey();
+            String value = entry.getValue();
+            if (key == KeyErrors.EMPTY_BUSCAR) {
+                mensaje.append(value).append("\n");
+            }
+            if (key == KeyErrors.EMPTY_MATRICULA) {
+                mensaje.append(value).append("\n");
+            }
+            if (key == KeyErrors.EMPTY_NOMBRE_ALUMNO) {
+                mensaje.append(value).append("\n");
+            }
+            if (key == KeyErrors.EMPTY_NOMBRE_CARRERA) {
+                mensaje.append(value).append("\n");
+            }
+            if (key == KeyErrors.EMPTY_DESCRIPCION) {
+                mensaje.append(value).append("\n");
+            }
+        });
+        return mensaje.toString();
+    }
     
 }

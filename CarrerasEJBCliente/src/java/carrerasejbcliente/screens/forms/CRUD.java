@@ -1,6 +1,9 @@
 package carrerasejbcliente.screens.forms;
 
 import carrerasejbcliente.model.beans.Carrera;
+import carrerasejbcliente.screens.validations.ActionErrors;
+import carrerasejbcliente.screens.validations.ActionValidDelegate;
+import carrerasejbcliente.screens.validations.implement.ActionEditarCarreraForm;
 
 /**
  *
@@ -67,7 +70,18 @@ public final class CRUD extends javax.swing.JFrame {
 
         txtDescripcion.setColumns(20);
         txtDescripcion.setRows(5);
+        txtDescripcion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtDescripcionKeyPressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(txtDescripcion);
+
+        txtNombreCarrera.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNombreCarreraKeyPressed(evt);
+            }
+        });
 
         btnVerAlumnos.setText("Ver alumnos");
         btnVerAlumnos.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -156,6 +170,11 @@ public final class CRUD extends javax.swing.JFrame {
         scllVistaTablaCarreras.setViewportView(tbCarreras);
 
         btnBuscar.setText("Buscar");
+        btnBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBuscarMouseClicked(evt);
+            }
+        });
 
         btnAgregarCarrera.setText("Agregar");
         btnAgregarCarrera.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -241,8 +260,6 @@ public final class CRUD extends javax.swing.JFrame {
 
     private void tbCarrerasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbCarrerasMouseClicked
         int row = tbCarreras.rowAtPoint(evt.getPoint());
-        System.out.println("ROW: " + row + " COL: " + 
-            modeloTabla.getValueAt(row, 1).toString());
         if (row >= 0) {
             this.setIndexRowTable(row);
             Carrera carrera = new Carrera();
@@ -290,8 +307,39 @@ public final class CRUD extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVerAlumnosMouseClicked
 
     private void btnActualizarCarreraFormMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnActualizarCarreraFormMouseClicked
-        
+        ActionValidDelegate form = new ActionEditarCarreraForm();
+        String mensajesError = ActionErrors.getErrors(form.validateForm(this));
+        if (!mensajesError.isEmpty()) {
+            javax.swing.JOptionPane.showOptionDialog(this,
+                mensajesError,
+                "Errores de formulario.",
+                javax.swing.JOptionPane.YES_OPTION, 
+                javax.swing.JOptionPane.ERROR_MESSAGE,
+                null, new Object[] {"Aceptar"}, 
+                "Aceptar"
+            );
+        } else {
+            System.out.println("Editar carreras.");
+        }
     }//GEN-LAST:event_btnActualizarCarreraFormMouseClicked
+
+    private void txtNombreCarreraKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreCarreraKeyPressed
+        if (!this.txtNombreCarrera.getText().isEmpty() || 
+             this.txtNombreCarrera.getText().length() > 0) {
+            this.btnActualizarCarreraForm.setEnabled(true); 
+        }
+    }//GEN-LAST:event_txtNombreCarreraKeyPressed
+
+    private void txtDescripcionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcionKeyPressed
+        if (!this.txtDescripcion.getText().isEmpty() || 
+             this.txtDescripcion.getText().length() > 0) {
+            this.btnActualizarCarreraForm.setEnabled(true); 
+        }
+    }//GEN-LAST:event_txtDescripcionKeyPressed
+
+    private void btnBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseClicked
+        
+    }//GEN-LAST:event_btnBuscarMouseClicked
 
     private void initEvents() {
         this.btnBorrarCarrera.setEnabled(false);
@@ -302,7 +350,6 @@ public final class CRUD extends javax.swing.JFrame {
     
     private void updateObjectsWhenRowSelected() {
         this.btnVerAlumnos.setEnabled(true);
-        this.btnActualizarCarreraForm.setEnabled(true);
         this.btnBorrarCarrera.setEnabled(true);
     }
     
@@ -315,25 +362,25 @@ public final class CRUD extends javax.swing.JFrame {
     
     private void addRowsTable() {
         modeloTabla.addRow(new Object[] {
-            "1", "Ing. en Sistemas", "Descripcion"
+            "1", "Ing. en Sistemas", "Descripcion 1"
         });
         modeloTabla.addRow(new Object[] {
-            "2", "Ing. en Sistemas", "Descripcion"
+            "2", "Ing. en Computo", "Descripcion 2"
         });
         modeloTabla.addRow(new Object[] {
-            "3", "Ing. en Sistemas", "Descripcion"
+            "3", "Ing. en Contaduría", "Descripcion 3"
         });
         modeloTabla.addRow(new Object[] {
-            "4", "Ing. en Sistemas", "Descripcion"
+            "4", "Ing. en Informatica", "Descripcion 4"
         });
         modeloTabla.addRow(new Object[] {
-            "5", "Ing. en Sistemas", "Descripcion"
+            "5", "Ing. en Medico", "Descripcion 5"
         });
         modeloTabla.addRow(new Object[] {
-            "6", "Ing. en Sistemas", "Descripcion"
+            "6", "Ing. en Biologo", "Descripcion 6"
         });
         modeloTabla.addRow(new Object[] {
-            "7", "Ing. en Sistemas", "Descripcion"
+            "7", "Ing. en Quimico", "Descripcion 7"
         });
     }
     
@@ -402,5 +449,17 @@ public final class CRUD extends javax.swing.JFrame {
     public void setIndexRowTable(int indexRowTable) {
         this.indexRowTable = indexRowTable;
     }
+
+    public String getTxtBuscarFormat() {
+        return txtBuscarFormat.getText();
+    }
+
+    public String getTxtDescripcion() {
+        return txtDescripcion.getText();
+    }
+
+    public String getTxtNombreCarrera() {
+        return txtNombreCarrera.getText();
+    }    
 
 }

@@ -3,9 +3,10 @@ package carrerasejbcliente.screens.validations;
 /**
  *
  * @author Rafael Landa
+ * @param <Form>
  */
-public interface ActionValidDelegate {
+public interface ActionValidDelegate<Form>{
     
-    public ActionErrors validateForm();
+    public ActionErrors validateForm(Form form);
     
 }
