@@ -73,3 +73,6 @@ hs_err_pid*
 /CarrerasEJBCliente/build/
 /CarrerasEJBCliente/dist/
 /Cliente/nbproject/private/
+/ServicioEJB/nbproject/private/
+/ServicioEJB/ServicioEJB-ejb/nbproject/private/
+/InterfazEJB/nbproject/private/
