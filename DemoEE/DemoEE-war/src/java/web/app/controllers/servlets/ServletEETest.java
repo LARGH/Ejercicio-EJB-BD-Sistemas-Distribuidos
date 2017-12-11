@@ -1,6 +1,6 @@
 package web.app.controllers.servlets;
 
-import com.ipn.bean.ServiceSessionBeanRemote;
+import com.ipn.bean.CarreraServiceRemote;
 import com.ipn.mx.model.Carrera;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,7 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 public class ServletEETest extends HttpServlet {
 
     @EJB
-    private ServiceSessionBeanRemote serviceSessionBean;
+    private CarreraServiceRemote carreraService;
+
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,7 +32,7 @@ public class ServletEETest extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Carrera carrera = new Carrera(1, "Carrera 1", "Descripcion de carrera");
+        //Carrera carrera = new Carrera(1, "Carrera 1", "Descripcion de carrera");
         List<Carrera> carreras = null;
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
@@ -42,10 +43,6 @@ public class ServletEETest extends HttpServlet {
             out.println("<title>Servlet ServletEETest</title>");            
             out.println("</head>");
             out.println("<body>");
-            carreras = serviceSessionBean.findAllCarreras();
-            for (Carrera c : carreras) {
-                out.println("<b>" + c.getNombre()+ "</b> => <b>" + c.getDescripcion() + "</b>");
-            }
             out.println("<h1>Servlet ServletEETest at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");

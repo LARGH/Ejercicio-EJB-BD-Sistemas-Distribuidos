@@ -4,9 +4,17 @@
         <servlet-name>ServletEETest</servlet-name>
         <servlet-class>web.app.controllers.servlets.ServletEETest</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CarreraDispatcher</servlet-name>
+        <servlet-class>web.app.controllers.servlets.admin.CarreraDispatcher</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletEETest</servlet-name>
         <url-pattern>/ServletEETest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CarreraDispatcher</servlet-name>
+        <url-pattern>/CarreraDispatcher</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -14,6 +22,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>ServletEETest</welcome-file>
+        <welcome-file>inicio_admin.jsp</welcome-file>
     </welcome-file-list>
 </web-app>

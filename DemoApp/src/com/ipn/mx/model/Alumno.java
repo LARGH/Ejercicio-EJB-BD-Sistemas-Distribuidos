@@ -1,16 +1,24 @@
 package com.ipn.mx.model;
 
 import java.io.Serializable;
+
+import java.util.List;
+
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -20,11 +28,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "alumno")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Alumno.findAll", query = "SELECT a FROM Alumno a"),
-    @NamedQuery(name = "Alumno.findByMatricula", query = "SELECT a FROM Alumno a WHERE a.matricula = :matricula"),
-    @NamedQuery(name = "Alumno.findByNombre", query = "SELECT a FROM Alumno a WHERE a.nombre = :nombre"),
-    @NamedQuery(name = "Alumno.findByApellidoPaterno", query = "SELECT a FROM Alumno a WHERE a.apellidoPaterno = :apellidoPaterno"),
-    @NamedQuery(name = "Alumno.findByApellidoMaterno", query = "SELECT a FROM Alumno a WHERE a.apellidoMaterno = :apellidoMaterno")})
+    @NamedQuery(name = "Alumno.findAll", 
+        query = "SELECT a FROM Alumno a"),
+    @NamedQuery(name = "Alumno.findByMatricula", 
+        query = "SELECT a FROM Alumno a WHERE a.matricula = :matricula"),
+    @NamedQuery(name = "Alumno.findByNombre", 
+        query = "SELECT a FROM Alumno a WHERE a.nombre = :nombre"),
+    @NamedQuery(name = "Alumno.findByApellidoPaterno", 
+        query = 
+        "SELECT a FROM Alumno a WHERE a.apellidoPaterno = :apellidoPaterno"),
+    @NamedQuery(name = "Alumno.findByApellidoMaterno", 
+        query = 
+        "SELECT a FROM Alumno a WHERE a.apellidoMaterno = :apellidoMaterno")})
 public class Alumno implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,9 +56,19 @@ public class Alumno implements Serializable {
     @Basic(optional = false)
     @Column(name = "apellido_materno")
     private String apellidoMaterno;
-    @JoinColumn(name = "id_carrera", referencedColumnName = "id")
-    @ManyToOne
-    private Carrera idCarrera;
+    @Basic(optional = false)
+    @Column(name = "email")
+    private String email;
+    @JoinTable(name = "inscritos", 
+        joinColumns = {
+            @JoinColumn(name = "matricula", 
+            referencedColumnName = "matricula")}, 
+        inverseJoinColumns = {
+            @JoinColumn(name = "id_carrera", 
+            referencedColumnName = "id_carrera")})
+    @ManyToMany(fetch = FetchType.LAZY, 
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Carrera> carreraList;
 
     public Alumno() {
     }
@@ -52,11 +77,16 @@ public class Alumno implements Serializable {
         this.matricula = matricula;
     }
 
-    public Alumno(String matricula, String nombre, String apellidoPaterno, String apellidoMaterno) {
+    public Alumno(String matricula, 
+                  String nombre, 
+                  String apellidoPaterno, 
+                  String apellidoMaterno,
+                  String email) {
         this.matricula = matricula;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
+        this.email = email;
     }
 
     public String getMatricula() {
@@ -91,12 +121,27 @@ public class Alumno implements Serializable {
         this.apellidoMaterno = apellidoMaterno;
     }
 
-    public Carrera getIdCarrera() {
-        return idCarrera;
+    /**
+     * @return the email
+     */
+    public String getEmail() {
+        return email;
     }
 
-    public void setIdCarrera(Carrera idCarrera) {
-        this.idCarrera = idCarrera;
+    /**
+     * @param email the email to set
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @XmlTransient
+    public List<Carrera> getCarreraList() {
+        return carreraList;
+    }
+
+    public void setCarreraList(List<Carrera> carreraList) {
+        this.carreraList = carreraList;
     }
 
     @Override
